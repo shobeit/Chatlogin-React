@@ -12,14 +12,7 @@ const firebase = require("firebase");
 require("firebase/firestore");
 
 firebase.initializeApp({
-    apiKey: "AIzaSyDxh0dW-Rtt32xJFvmHbBXE5KezIUAdlg4",
-    authDomain: "chatlogin-react.firebaseapp.com",
-    databaseURL: "https://chatlogin-react.firebaseio.com",
-    projectId: "chatlogin-react",
-    storageBucket: "chatlogin-react.appspot.com",
-    messagingSenderId: "936758930190",
-    appId: "1:936758930190:web:2cf09c53af929444f4455f",
-    measurementId: "G-X78MBMLZVJ"
+    
 });
 
 const routing = (
