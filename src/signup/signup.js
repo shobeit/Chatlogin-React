@@ -68,6 +68,8 @@ class SignupComponent extends React.Component {
         );
     }
 
+    formIsValid =() => this.state.password === this.state.passwordConfirmation;
+
     userTyping = (type, e) => {
         switch (type) {
             case 'email':
@@ -86,7 +88,33 @@ class SignupComponent extends React.Component {
     }
 
     submitSignup = (e) => {
-        console.log('submitting');
+        e.preventDefault();
+        if(!this.formIsValid()) {
+            this.setState({signupError: 'Passwords Do Not Match'});
+            return;
+        }
+
+        firebase.auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(authRes => {
+            const userObj = {
+                email: authRes.user.email
+            };
+            firebase
+            .firestore()
+            .collection('users')
+            .doc(this.state.email)
+            .set(userObj)
+            .then(() => {
+                this.props.history.push('/dashboard')
+            }, dbError => {
+                console.log(dbError);
+                this.setState({ signupError: 'Failed to add user from DB'});
+            })
+        }, authError => {
+            console.log(authError);
+            this.setState({ signupError: 'Failed to add user from Auth'})
+        })
     }
 
 }
